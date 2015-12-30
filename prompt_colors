@@ -1,0 +1,10 @@
+function color {
+  #[ -n "$2" ] && return 0
+  bg=""
+  bg_end=""
+  if [ -n "$3" ]; then
+    bg="%K{$3}"
+    bg_end="%k"
+  fi
+  echo "%F{$1}$bg$2$bg_end%f"
+}

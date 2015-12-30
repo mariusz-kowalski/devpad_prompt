@@ -1,0 +1,38 @@
+source ${0:a:h}/prompt_colors
+source ${0:a:h}/prompt_git
+
+autoload -U add-zsh-hook
+add-zsh-hook precmd precmd_hook
+
+function precmd_hook {
+  PROMPT="$(exit_code) $(user)@$(host) $(path) $(prompt_git)
+$(prompt) "
+}
+
+function exit_code {
+  code=$?
+  if [ $code -gt 0 ]; then
+    color red $code white
+  else
+    color green $code white
+  fi
+}
+
+function user {
+  echo "%B%n%b"
+}
+
+function host {
+  # echo "%F{5}%m%f"
+  echo $(color blue %m white)
+}
+
+function path {
+  echo "%~"
+}
+
+function prompt {
+  echo "%#"
+}
+
+precmd_hook
