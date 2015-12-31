@@ -1,47 +1,40 @@
-function is_repo {
+function dpp_is_repo {
   git rev-parse --is-inside-work-tree > /dev/null 2>&1
 }
 
-function repo_icon {
-  color black "±" white
+function dpp_repo_icon {
+  dpp_cecho "±" black
 }
 
-function branch_name {
-  color white $(git rev-parse --abbrev-ref HEAD 2> /dev/null) yellow
+function dpp_branch_name {
+  dpp_cecho $(git rev-parse --abbrev-ref HEAD 2> /dev/null) white
 }
 
-function check_status {
-  git status 2>/dev/null | grep "$1" > /dev/null 2>&1
+function dpp_check_status {
+  git dpp_status 2>/dev/null | grep "$1" > /dev/null 2>&1
 }
 
-function untracked_files {
-  if check_status "Untracked files:"; then
-    color red "untracked" white
+function dpp_untracked_files {
+  if dpp_check_status "Untracked files:"; then
+    dpp_cecho "untracked" red
   fi
 }
 
-function new_files {
-  if check_status "new file:"; then
-    color green "new" white
+function dpp_new_files {
+  if dpp_check_status "new file:"; then
+    dpp_cecho "new" green
   fi
 }
 
-function modified_files {
-  if check_status "modified:"; then
-    color blue "modified" white
+function dpp_modified_files {
+  if dpp_check_status "modified:"; then
+    dpp_cecho "modified" blue
   fi
 }
 
-function rvm_info {
-  current=$(rvm current)
-  if echo "$current" | grep "2" >/dev/null 2>&1; then
-    color white "$current" red
-  fi
-}
-
-function prompt_git {
-  if is_repo; then
+function dpp_prompt_git {
+  if dpp_is_repo; then
     # this is git repo :-)
-    echo "$(repo_icon)$(branch_name)$(untracked_files)$(new_files)$(modified_files) $(rvm_info)"
+    echo "$(dpp_repo_icon)$(dpp_branch_name)$(dpp_untracked_files)$(dpp_new_files)$(dpp_modified_files) "
   fi
 }
