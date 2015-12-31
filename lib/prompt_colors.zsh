@@ -1,28 +1,18 @@
-function dpp_color_old {
-  #[ -n "$2" ] && return 0
-  bg=""
-  bg_end=""
-  if [ -n "$3" ]; then
-    bg="%K{$3}"
-    bg_end="%k"
-  fi
-  echo "%F{$1}$bg$2$bg_end%f"
+function cecho {
+  col_conf=$(construct_col_conf $2 $3 $4)
+  echo "%{\033[${col_conf}m%}$1%{\033[${default_background_color}m%}"
 }
 
-function dpp_cecho {
-  # col_conf="2;32;101"
-  col_conf=$(dpp_construct_col_conf $2 $3 $4)
-  echo "%{\033[${col_conf}m%}$1%{\033[0m%}"
-}
 
-function dpp_construct_col_conf {
-  local style="0"
-  local color="30"
-  local bg_color="40"
+function construct_col_conf {
+  local style="$(color_no normal)"
+  local color="$(color_no white)"
+  # local bg_color="$(color_no bg_black)"
+  local bg_color="$default_background_color"
   local no="0"
 
   for param in $1 $2 $3; do
-    no=$(dpp_color_no $param)
+    no=$(color_no $param)
     case ${no:0:1} in
       "3") color=$no;;
       "9") color=$no;;
@@ -45,7 +35,7 @@ function dpp_construct_col_conf {
   echo "$style;$color;$bg_color"
 }
 
-function dpp_color_no {
+function color_no {
   case $1 in
     "black")   echo "30";;
     "red")     echo "31";;
@@ -102,7 +92,7 @@ function color_demo {
               bg_cyan bg_hi_cyan \
               bg_white bg_hi_white; do
       for c in black red green yellow blue magenta cyan white hi_black hi_red hi_green hi_yellow hi_blue hi_magenta hi_cyan hi_white; do
-        dpp_cecho " $c $bg $st %E" $c $bg $st
+        cecho " $c $bg $st %E" $c $bg $st
       done
     done
   done

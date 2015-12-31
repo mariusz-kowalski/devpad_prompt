@@ -1,39 +1,6 @@
-source ${0:a:h}/prompt_colors
-source ${0:a:h}/prompt_git
-source ${0:a:h}/rvm.zsh
-
 autoload -U add-zsh-hook
-add-zsh-hook precmd dpp_precmd_hook
+add-zsh-hook precmd precmd_hook
 
-function dpp_precmd_hook {
-  PROMPT="$(dpp_exit_code) $(dpp_user)@$(dpp_host) $(dpp_path) $(dpp_prompt_git) $(dpp_rvm_info)
-$(dpp_prompt)"
+function precmd_hook {
+  PROMPT="$(${0:a:h}/echo_prompt.zsh $?)"
 }
-
-function dpp_exit_code {
-  code=$?
-  if [ $code -gt 0 ]; then
-    dpp_cecho $code red
-  else
-    dpp_cecho $code green
-  fi
-}
-
-function dpp_user {
-  echo "%B%n%b"
-}
-
-function dpp_host {
-  # echo "%F{5}%m%f"
-  echo $(dpp_cecho %m blue)
-}
-
-function dpp_path {
-  echo "%~"
-}
-
-function dpp_prompt {
-  echo "%#"
-}
-
-dpp_precmd_hook
