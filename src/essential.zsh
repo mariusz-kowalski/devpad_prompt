@@ -8,7 +8,10 @@ function exit_code {
 }
 
 function user {
-  cecho "%n" bold
+  # user_color=34
+  hash_no=$(str_hash "$USER" "3")
+  user_color=$(expr 34 + $hash_no)
+  cecho "$user_color%n" bold $user_color
 }
 
 function host {

@@ -1,6 +1,20 @@
+source "${0:a:h}/lib/hard_reset_colors.zsh"
+source "${0:a:h}/lib/time.zsh"
+
 autoload -U add-zsh-hook
 add-zsh-hook precmd precmd_hook
+add-zsh-hook preexec preexec_hook
+
+start_timestamp=$(timestamp)
 
 function precmd_hook {
-  PROMPT="$(${0:a:h}/echo_prompt.zsh $?)"
+  execution_time="$(expr $(timestamp) - $start_timestamp)" # first line
+
+  PROMPT="$(${0:a:h}/echo_prompt.zsh $? $execution_time)"
+}
+
+function preexec_hook {
+  hard_reset_colors
+
+  start_timestamp=$(timestamp) # last line
 }

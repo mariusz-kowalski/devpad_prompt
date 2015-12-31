@@ -3,7 +3,6 @@ function cecho {
   echo "%{\033[${col_conf}m%}$1%{\033[${default_background_color}m%}"
 }
 
-
 function construct_col_conf {
   local style="$(color_no normal)"
   local color="$(color_no white)"
@@ -28,7 +27,6 @@ function construct_col_conf {
              bg_color=$no
            fi
          ;;
-      "-");;
       *) style=$no
     esac
   done
@@ -77,7 +75,7 @@ function color_no {
     "bold")       echo "1";;
     "underline")  echo "4";;
     "blinking")   echo "5";;
-    *) echo "-1"
+    *) echo $1
   esac
 }
 
