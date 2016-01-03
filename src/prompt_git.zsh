@@ -4,11 +4,59 @@ function is_repo {
 }
 
 function repo_icon {
-  cecho "±" black
+  # cecho "▌" hi_black bg_yellow bold
+  block_begin bg_yellow
+  cecho "± " black bg_yellow
+  # cecho "▐" hi_black bg_yellow
+}
+
+function branch_type {
+  if [ "$1" == "master" ]; then
+    echo "master"
+  elif [ "$1" == "develop" ]; then
+    echo "develop"
+  elif [ "${1:0:7}" == "feature" ]; then
+    echo "feature"
+  elif [ "${1:0:6}" == "hotfix" ]; then
+    echo "hotfix"
+  elif [ "${1:0:7}" == "release" ]; then
+    echo "release"
+  fi
 }
 
 function branch_name {
-  cecho $(git rev-parse --abbrev-ref HEAD 2> /dev/null) white
+  local branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+  local color=black
+  local bg_color=bg_yellow
+  local font_style=normal
+
+  local branch_type=$(branch_type $branch)
+  case $branch_type in
+    "master" ) color=black
+               bg_color=bg_hi_yellow
+               font_style=bold
+               ;;
+    "develop" ) color=yellow
+                font_style=bold
+                bg_color=bg_blue
+                ;;
+    "feature" ) color=yellow
+                bg_color=bg_green
+                font_style=bold
+                branch=${branch/feature/${icons[star]}}
+                ;;
+    "release" ) color=yellow
+                bg_color=bg_yellow
+                font_style=bold
+                branch=${branch/release/${icons[plane]}}
+                ;;
+    "hotfix" ) bg_color=bg_hi_yellow
+               color=hi_red
+               font_style=bold
+               branch=${branch/hotfix/${special_icons[hotfix]}}
+               ;;
+  esac
+  cecho "$branch " $color $bg_color $font_style
 }
 
 function check_status {

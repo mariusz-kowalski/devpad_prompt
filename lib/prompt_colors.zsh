@@ -1,39 +1,41 @@
 function cecho {
-  col_conf=$(construct_col_conf $2 $3 $4)
-  echo "%{\033[${col_conf}m%}$1%{\033[${default_background_color}m%}"
+  style=$(construct_style $2 $3 $4)
+  reset_style=$(construct_style)
+  echo -ne "%{\033[${style}m%}"
+  echo -ne "$1"
+  echo -ne "%{\033[${reset_style}m%}"
 }
 
-function construct_col_conf {
-  local style="$(color_no normal)"
-  local color="$(color_no white)"
-  # local bg_color="$(color_no bg_black)"
-  local bg_color="$default_background_color"
-  local no="0"
+function construct_style {
+  if [ -n "$default_font_style" ]; then
+    local font_style="$default_font_style"
+  else
+    local font_style="$(style_no normal)"
+  fi
+  if [ -n "$default_foreground_color" ]; then
+    local color="$default_foreground_color"
+  else
+    local color="$(style_no white)"
+  fi
+  if [ -n "$default_background_color" ]; then
+    local bg_color="$default_background_color"
+  else
+    local bg_color="$(style_no bg_black)"
+  fi
 
+  local no="0"
   for param in $1 $2 $3; do
-    no=$(color_no $param)
-    case ${no:0:1} in
-      "3") color=$no;;
-      "9") color=$no;;
-      "4") if [ "$no" -eq "4" ]; then
-             style=4
-           else
-             bg_color=$no
-           fi
-         ;;
-      "1") if [ "$no" -eq "1" ]; then
-             style=1
-           else
-             bg_color=$no
-           fi
-         ;;
-      *) style=$no
+    no=$(style_no $param)
+    case $(style_type $no) in
+      "color") color=$no;;
+      "bg_color") bg_color=$no;;
+      "font_style") font_style=$no;;
     esac
   done
-  echo "$style;$color;$bg_color"
+  echo "$font_style;$color;$bg_color"
 }
 
-function color_no {
+function style_no {
   case $1 in
     "black")   echo "30";;
     "red")     echo "31";;
@@ -79,7 +81,51 @@ function color_no {
   esac
 }
 
+function change_style {
+  # take three params and assign them to default_
+  # it works only for cecho functtion
+  local no="0"
+  for param in $1 $2 $3; do
+    no=$(style_no $param)
+    case $(style_type $no) in
+      "color") default_foreground_color=$no;;
+      "bg_color") default_background_color=$no;;
+      "font_style") default_font_style=$no;;
+    esac
+  done;
+}
+
+function style_type {
+  case ${1:0:1} in
+    "3"|"9") echo "color";;
+    "4") if [ "$1" -eq "4" ]; then
+           echo "font_style"
+         else
+           echo "bg_color"
+         fi
+       ;;
+    "1") if [ "$1" -eq "1" ]; then
+           echo "font_style"
+         else
+           echo "bg_color"
+         fi
+       ;;
+    *) echo "font_style"
+  esac
+}
+
+function block_begin {
+  # cecho "▌" hi_black bg_yellow
+  # @TODO: calculate color based on actual bg
+  cecho "▌" hi_black $1
+}
+function block_end {
+  # cecho "▐" hi_black bg_yellow
+  cecho "▐" hi_black $1
+}
+
 function color_demo {
+  # @TODO: remove this shit
   for st in normal bold underline; do
     for bg in bg_black bg_hi_black \
               bg_red bg_hi_red \
