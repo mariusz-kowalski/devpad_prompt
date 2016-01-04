@@ -10,7 +10,7 @@ function user {
   local user_hash=$(str_hash "$USER" "3")
   local user_color=$(expr 44 + $user_hash)
 
-  local icon_no=$(str_hash "$user_id" "$(icon_count)")
+  local icon_no=$(str_hash "$USER" "$(icon_count)")
   cecho "$(icon_no $icon_no) " $user_color bold
   cecho "%n" $user_color
 }
