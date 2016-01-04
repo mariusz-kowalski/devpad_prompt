@@ -1,35 +1,35 @@
 function exit_code {
   if [ "$1" -gt 0 ]; then
-    cecho "$1 " bg_red
+    style_echo "$1 " bg_red
   else
-    cecho "$1 " green
+    style_echo "$1 " green
   fi
 }
 
 function user {
-  local user_hash=$(str_hash "$USER" "3")
-  local user_color=$(expr 44 + $user_hash)
+  local available_colors=(bg_blue bg_magenta bg_cyan bg_white bg_hi_blue bg_hi_magenta bg_hi_cyan bg_hi_white)
+  local hash=$(str_hash "$USER" "${#available_colors[@]}")
 
-  local icon_no=$(str_hash "$user_id" "$(icon_count)")
-  cecho "$(icon_no $icon_no) " $user_color bold
-  cecho "%n" $user_color
+  local icon_no=$(str_hash "$USER" "$(icon_count)")
+  style_echo "$(icon_no $icon_no) " ${available_colors[$hash]} bold
+  style_echo "%n" ${available_colors[$hash]}
 }
 
 function host {
   local host_hash=$(str_hash "$HOST" 3)
   local host_color=$(expr 44 + $host_hash)
-  cecho "%m:" $host_color
+  style_echo "%m:" $host_color
 }
 
 function path {
   local pwd=${PWD/$HOME/\~}
   if [ "${pwd:0:1}" == "~" ]; then
-    cecho "$pwd"
+    style_echo "$pwd"
   else
-    cecho "$pwd" yellow bold
+    style_echo "$pwd" yellow bold
   fi
 }
 
 function prompt {
-  cecho "%# " bold
+  style_echo "%# " bold
 }

@@ -4,10 +4,10 @@ function is_repo {
 }
 
 function repo_icon {
-  # cecho "▌" hi_black bg_yellow bold
+  # style_echo "▌" hi_black bg_yellow bold
   block_begin bg_yellow
-  cecho "± " black bg_yellow
-  # cecho "▐" hi_black bg_yellow
+  style_echo "± " black bg_yellow
+  # style_echo "▐" hi_black bg_yellow
 }
 
 function branch_type {
@@ -56,7 +56,7 @@ function branch_name {
                branch=${branch/hotfix/${special_icons[hotfix]}}
                ;;
   esac
-  cecho "$branch " $color $bg_color $font_style
+  style_echo "$branch " $color $bg_color $font_style
 }
 
 function check_status {
@@ -65,19 +65,19 @@ function check_status {
 
 function untracked_files {
   if check_status "Untracked files:"; then
-    cecho "untracked" red
+    style_echo "untracked" red
   fi
 }
 
 function new_files {
   if check_status "new file:"; then
-    cecho "new" green
+    style_echo "new" green
   fi
 }
 
 function modified_files {
   if check_status "modified:"; then
-    cecho "modified" blue
+    style_echo "modified" blue
   fi
 }
 

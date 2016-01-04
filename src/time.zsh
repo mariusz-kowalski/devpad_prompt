@@ -3,5 +3,5 @@
 # }
 
 function timer {
-  cecho " $1 "
+  style_echo " $1 "
 }

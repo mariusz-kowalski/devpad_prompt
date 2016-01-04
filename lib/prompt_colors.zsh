@@ -1,31 +1,33 @@
-function cecho {
-  style=$(construct_style $2 $3 $4)
-  reset_style=$(construct_style)
+function style_echo {
+  local style=$(construct_style $2 $3 $4)
+  local reset_style=$(construct_style)
   echo -ne "%{\033[${style}m%}"
   echo -ne "$1"
   echo -ne "%{\033[${reset_style}m%}"
 }
 
 function construct_style {
+  local font_style
+  local color
+  local bg_colo
   if [ -n "$default_font_style" ]; then
-    local font_style="$default_font_style"
+    font_style="$default_font_style"
   else
-    local font_style="$(style_no normal)"
+    font_style="${styles[normal]}"
   fi
   if [ -n "$default_foreground_color" ]; then
-    local color="$default_foreground_color"
+    color="$default_foreground_color"
   else
-    local color="$(style_no white)"
+    color="${styles[white]}"
   fi
   if [ -n "$default_background_color" ]; then
-    local bg_color="$default_background_color"
+    bg_color="$default_background_color"
   else
-    local bg_color="$(style_no bg_black)"
+    bg_color="${styles[bg_black]}"
   fi
 
-  local no="0"
   for param in $1 $2 $3; do
-    no=$(style_no $param)
+    local no=${styles[$param]}
     case $(style_type $no) in
       "color") color=$no;;
       "bg_color") bg_color=$no;;
@@ -35,58 +37,56 @@ function construct_style {
   echo "$font_style;$color;$bg_color"
 }
 
-function style_no {
-  case $1 in
-    "black")   echo "30";;
-    "red")     echo "31";;
-    "green")   echo "32";;
-    "yellow")  echo "33";;
-    "blue")    echo "34";;
-    "magenta") echo "35";;
-    "cyan")    echo "36";;
-    "white")   echo "37";;
+#function style_no {
+declare -A styles
 
-    "hi_black")   echo "90";;
-    "hi_red")     echo "91";;
-    "hi_green")   echo "92";;
-    "hi_yellow")  echo "93";;
-    "hi_blue")    echo "94";;
-    "hi_magenta") echo "95";;
-    "hi_cyan")    echo "96";;
-    "hi_white")   echo "97";;
+styles[black]=30
+styles[red]=31
+styles[green]=32
+styles[yellow]=33
+styles[blue]=34
+styles[magenta]=35
+styles[cyan]=36
+styles[white]=37
 
-    "bg_black")   echo "40";;
-    "bg_red")     echo "41";;
-    "bg_green")   echo "42";;
-    "bg_yellow")  echo "43";;
-    "bg_blue")    echo "44";;
-    "bg_magenta") echo "45";;
-    "bg_cyan")    echo "46";;
-    "bg_white")   echo "47";;
+styles[hi_black]=90
+styles[hi_red]=91
+styles[hi_green]=92
+styles[hi_yellow]=93
+styles[hi_blue]=94
+styles[hi_magenta]=95
+styles[hi_cyan]=96
+styles[hi_white]=97
 
-    "bg_hi_black")   echo "100";;
-    "bg_hi_red")     echo "101";;
-    "bg_hi_green")   echo "102";;
-    "bg_hi_yellow")  echo "103";;
-    "bg_hi_blue")    echo "104";;
-    "bg_hi_magenta") echo "105";;
-    "bg_hi_cyan")    echo "106";;
-    "bg_hi_white")   echo "107";;
+styles[bg_black]=40
+styles[bg_red]=41
+styles[bg_green]=42
+styles[bg_yellow]=43
+styles[bg_blue]=44
+styles[bg_magenta]=45
+styles[bg_cyan]=46
+styles[bg_white]=47
 
-    "normal")     echo "0";;
-    "bold")       echo "1";;
-    "underline")  echo "4";;
-    "blinking")   echo "5";;
-    *) echo $1
-  esac
-}
+styles[bg_hi_black]=100
+styles[bg_hi_red]=101
+styles[bg_hi_green]=102
+styles[bg_hi_yellow]=103
+styles[bg_hi_blue]=104
+styles[bg_hi_magenta]=105
+styles[bg_hi_cyan]=106
+styles[bg_hi_white]=107
+
+styles[normal]=0
+styles[bold]=1
+styles[underline]=4
+styles[blinking]=5
 
 function change_style {
   # take three params and assign them to default_
-  # it works only for cecho functtion
+  # it works only for style_echo functtion
   local no="0"
   for param in $1 $2 $3; do
-    no=$(style_no $param)
+    no="${styles[$param]}"
     case $(style_type $no) in
       "color") default_foreground_color=$no;;
       "bg_color") default_background_color=$no;;
@@ -110,18 +110,19 @@ function style_type {
            echo "bg_color"
          fi
        ;;
-    *) echo "font_style"
+    "0"|"2"|"5") echo "font_style";;
+    *) echo "unknown"
   esac
 }
 
 function block_begin {
-  # cecho "▌" hi_black bg_yellow
+  # style_echo "▌" hi_black bg_yellow
   # @TODO: calculate color based on actual bg
-  cecho "▌" hi_black $1
+  style_echo "▌" hi_black $1
 }
 function block_end {
-  # cecho "▐" hi_black bg_yellow
-  cecho "▐" hi_black $1
+  # style_echo "▐" hi_black bg_yellow
+  style_echo "▐" hi_black $1
 }
 
 function color_demo {
@@ -136,7 +137,7 @@ function color_demo {
               bg_cyan bg_hi_cyan \
               bg_white bg_hi_white; do
       for c in black red green yellow blue magenta cyan white hi_black hi_red hi_green hi_yellow hi_blue hi_magenta hi_cyan hi_white; do
-        cecho " $c $bg $st %E" $c $bg $st
+        style_echo " $c $bg $st %E" $c $bg $st
       done
     done
   done

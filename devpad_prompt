@@ -8,13 +8,11 @@ add-zsh-hook precmd precmd_hook
 add-zsh-hook preexec preexec_hook
 
 start_timestamp=$(timestamp)
-command_number=0
 
 function precmd_hook {
   error_code=$?
-  execution_time="$(expr $(timestamp) - $start_timestamp)" # first line
-  command_number=$(expr $command_number + 1)
-  PROMPT="$($root_path/echo_prompt.zsh $error_code $execution_time $HOST $command_number)"
+  execution_time="$(expr $(timestamp) - $start_timestamp)" # first (after error_code assignment) line
+  PROMPT="$($root_path/echo_prompt.zsh $error_code $execution_time $HOST)"
 }
 
 function preexec_hook {

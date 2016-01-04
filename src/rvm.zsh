@@ -7,6 +7,6 @@ function rvm_info {
   if ! rvm_installed; then return 0; fi
   local current=$(rvm current)
   if [[ $current == *"@"* ]]; then
-    cecho " $current" white bg_magenta
+    style_echo " $current" white bg_magenta
   fi
 }
