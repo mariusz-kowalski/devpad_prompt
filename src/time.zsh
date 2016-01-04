@@ -3,5 +3,5 @@
 # }
 
 function timer {
-  cecho "$1 "
+  cecho " $1 "
 }
