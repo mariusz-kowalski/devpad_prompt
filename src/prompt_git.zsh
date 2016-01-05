@@ -84,6 +84,10 @@ function modified_files {
 function prompt_git {
   if is_repo; then
     # this is git repo :-)
-    echo "$(repo_icon)$(branch_name)$(untracked_files)$(new_files)$(modified_files) "
+    echo -n "$(repo_icon)"
+    echo -n "$(branch_name)"
+    echo -n "$(untracked_files)"
+    echo -n "$(new_files)"
+    echo    "$(modified_files) "
   fi
 }
