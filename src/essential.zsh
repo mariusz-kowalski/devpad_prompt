@@ -18,9 +18,13 @@ function user {
 }
 
 function host {
-  local host_hash=$(str_hash "$HOST" 3)
-  local host_color=$(expr 44 + $host_hash)
-  style_echo "%m:" $host_color
+  local available_bg_colors=(bg_blue bg_magenta bg_cyan bg_white bg_hi_blue \
+                             bg_hi_magenta bg_hi_cyan)
+  local hash=$(str_hash "$HOST" "${#available_bg_colors[@]}")
+  local icon_no=$(str_hash "$HOST" "$(icon_count)")
+  local color=hi_white
+  style_echo "%m" ${available_bg_colors[$hash]} $color bold
+  style_echo "$(icon_no $icon_no) " ${available_bg_colors[$hash]} bold $color
 }
 
 function path {
