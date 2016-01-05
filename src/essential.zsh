@@ -7,12 +7,14 @@ function exit_code {
 }
 
 function user {
-  local available_colors=(bg_blue bg_magenta bg_cyan bg_white bg_hi_blue bg_hi_magenta bg_hi_cyan bg_hi_white)
-  local hash=$(str_hash "$USER" "${#available_colors[@]}")
+  local available_bg_colors=(bg_blue bg_magenta bg_cyan bg_white bg_hi_blue \
+                             bg_hi_magenta bg_hi_cyan)
+  local hash=$(str_hash "$USER" "${#available_bg_colors[@]}")
 
   local icon_no=$(str_hash "$USER" "$(icon_count)")
-  style_echo "$(icon_no $icon_no) " ${available_colors[$hash]} bold
-  style_echo "%n" ${available_colors[$hash]}
+  # @TODO: hi_white isn't readable on all available_bg_colors
+  style_echo "$(icon_no $icon_no) " ${available_bg_colors[$hash]} bold hi_white
+  style_echo "%n" ${available_bg_colors[$hash]} hi_white
 }
 
 function host {

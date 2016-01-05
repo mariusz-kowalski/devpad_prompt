@@ -19,7 +19,7 @@ icons[flag]="⚑"
 icons[star]="★"
 icons[dice]="⚂"
 icons[phone]="☎"
-icons[sad]="☹"
+# icons[sad]="☹"
 icons[smile]="☺"
 
 function icon_count {
