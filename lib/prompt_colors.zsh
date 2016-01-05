@@ -90,7 +90,7 @@ function readable_color_for {
     "bg_hi_white") echo "black";;
     "bg_hi_yellow") echo "black";;
     "bg_hi_green") echo "black";;
-    *) echo "white"
+    *) echo "hi_white"
   esac
 }
 
