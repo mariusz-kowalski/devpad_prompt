@@ -65,19 +65,61 @@ function check_status {
 
 function untracked_files {
   if check_status "Untracked files:"; then
-    style_echo "untracked" red
+    style_echo "untr " yellow
   fi
 }
 
 function new_files {
   if check_status "new file:"; then
-    style_echo "new" green
+    style_echo "new " hi_green
   fi
 }
 
 function modified_files {
   if check_status "modified:"; then
-    style_echo "modified" blue
+    style_echo "mod " hi_yellow
+  fi
+}
+
+function deleted_files {
+  if check_status "deleted:"; then
+    style_echo "del " hi_blue
+  fi
+}
+
+function renamed_files {
+  if check_status "renamed:"; then
+    style_echo "move " hi_cyan
+  fi
+}
+
+function remote_up_to_date {
+  if check_status "is up-to-date"; then
+    style_echo "u-t-d " hi_green
+  fi
+}
+
+function remote_ahead {
+  if check_status "is ahead of"; then
+    style_echo "ahead " blue bold
+  fi
+}
+
+function remote_diverged {
+  if check_status "have diverged"; then
+    style_echo "diverged " hi_white bold bg_red
+  fi
+}
+
+function remote_behind {
+  if check_status "is behind"; then
+    style_echo "behind " hi_red bold bg_white
+  fi
+}
+
+function conflicts {
+  if check_status "fix conflicts"; then
+    style_echo "conflicts " bg_hi_yellow red bold
   fi
 }
 
@@ -88,6 +130,13 @@ function git_info {
     echo -n "$(branch_name)"
     echo -n "$(untracked_files)"
     echo -n "$(new_files)"
-    echo    "$(modified_files) "
+    echo -n "$(modified_files)"
+    echo -n "$(deleted_files)"
+    echo -n "$(renamed_files)"
+    echo -n "$(remote_up_to_date)"
+    echo -n "$(remote_ahead)"
+    echo -n "$(remote_diverged)"
+    echo -n "$(remote_behind)"
+    echo -n "$(conflicts)"
   fi
 }
