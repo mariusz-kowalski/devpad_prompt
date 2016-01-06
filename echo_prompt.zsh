@@ -36,6 +36,7 @@ echo -en "$(git_info)"
 echo -en "$(rvm_info)"
 echo -en "$(nvm_info)"
 echo -en "$(timer $execution_time)"
+echo -en "$SHELL"
 echo -en "%E"
 
 echo # new line
