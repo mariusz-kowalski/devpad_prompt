@@ -32,6 +32,7 @@ function icon_no {
 
 declare -A special
 special_icons[hotfix]="⚡"
+special_icons[clock]="◷"
 
 # arrows
 # ← ↑ → ↓ ↔ ↕ ↖ ↗ ↘ ↙ ↚ ↛ ↜ ↝ ↞ ↟ ↠ ↡ ↢ ↣ ↤ ↥ ↦ ↧ ↨ ↩ ↪ ↫ ↬ ↭ ↮ ↯
@@ -62,3 +63,6 @@ special_icons[hotfix]="⚡"
 
 # blocks
 # ▀ ▁ ▂ ▃ ▄ ▅ ▆ ▇ █ ▉ ▊ ▋ ▌ ▍ ▎ ▏ ▐ ░ ▒ ▓ ▔ ▕ ▖ ▗ ▘ ▙ ▚ ▛ ▜ ▝ ▞ ▟
+
+
+# ⎇◷  ↑⤴ ᛘ ߂ ᚴ ᚶ ᚠ ⍦ ⑂
