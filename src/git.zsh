@@ -65,19 +65,19 @@ function check_status {
 
 function untracked_files {
   if check_status "Untracked files:"; then
-    style_echo "untracked" red
+    style_echo "untr " yellow
   fi
 }
 
 function new_files {
   if check_status "new file:"; then
-    style_echo "new" green
+    style_echo "new " hi_green
   fi
 }
 
 function modified_files {
   if check_status "modified:"; then
-    style_echo "modified" blue
+    style_echo "mod " hi_yellow
   fi
 }
 
