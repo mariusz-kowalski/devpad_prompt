@@ -1,9 +1,11 @@
 function style_echo {
   local style=$(construct_style $2 $3 $4)
   local reset_style=$(construct_style)
-  echo -ne "%{\033[${style}m%}"
+  # echo -ne "%{\033[${style}m%}"
+  echo -ne "\033[${style}m"
   echo -ne "$1"
-  echo -ne "%{\033[${reset_style}m%}"
+  # echo -ne "%{\033[${reset_style}m%}"
+  echo -ne "\033[${reset_style}m"
 }
 
 function construct_style {
@@ -81,6 +83,17 @@ styles[bold]=1
 styles[underline]=4
 styles[blinking]=5
 
+function readable_color_for {
+  case $1 in
+    "bg_hi_cyan") echo "black";;
+    "bg_white") echo "black";;
+    "bg_hi_white") echo "black";;
+    "bg_hi_yellow") echo "black";;
+    "bg_hi_green") echo "black";;
+    *) echo "hi_white"
+  esac
+}
+
 function change_style {
   # take three params and assign them to default_
   # it works only for style_echo functtion
@@ -126,20 +139,11 @@ function block_end {
 }
 
 function color_demo {
-  # @TODO: remove this shit
-  for st in normal bold underline; do
-    for bg in bg_black bg_hi_black \
-              bg_red bg_hi_red \
-              bg_green bg_hi_green \
-              bg_yellow bg_hi_yellow \
-              bg_blue bg_hi_blue \
-              bg_magenta bg_hi_magenta \
-              bg_cyan bg_hi_cyan \
-              bg_white bg_hi_white; do
-      for c in black red green yellow blue magenta cyan white hi_black hi_red hi_green hi_yellow hi_blue hi_magenta hi_cyan hi_white; do
-        style_echo " $c $bg $st %E" $c $bg $st
-      done
-    done
+  for bg in bg_black bg_hi_black bg_red bg_hi_red bg_green bg_hi_green \
+            bg_yellow bg_hi_yellow bg_blue bg_hi_blue bg_magenta bg_hi_magenta \
+            bg_cyan bg_hi_cyan bg_white bg_hi_white; do
+    local color=$(readable_color_for $bg)
+    style_echo "  example text in color $color  " $color $bg
+    echo
   done
-  # foreground normal|bold|underline|blinking background
 }

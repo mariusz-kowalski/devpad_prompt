@@ -12,15 +12,21 @@ function user {
   local hash=$(str_hash "$USER" "${#available_bg_colors[@]}")
 
   local icon_no=$(str_hash "$USER" "$(icon_count)")
-  # @TODO: hi_white isn't readable on all available_bg_colors
-  style_echo "$(icon_no $icon_no) " ${available_bg_colors[$hash]} bold hi_white
-  style_echo "%n" ${available_bg_colors[$hash]} hi_white
+  local color_bg=${available_bg_colors[$hash]}
+  local color=$(readable_color_for $color_bg)
+  style_echo "$(icon_no $icon_no) " $color_bg  $color
+  style_echo "%n" $color_bg $color
 }
 
 function host {
-  local host_hash=$(str_hash "$HOST" 3)
-  local host_color=$(expr 44 + $host_hash)
-  style_echo "%m:" $host_color
+  local available_bg_colors=(bg_blue bg_magenta bg_cyan bg_white bg_hi_blue \
+                             bg_hi_magenta bg_hi_cyan)
+  local hash=$(str_hash "$HOST" "${#available_bg_colors[@]}")
+  local icon_no=$(str_hash "$HOST" "$(icon_count)")
+  local color_bg=${available_bg_colors[$hash]}
+  local color=$(readable_color_for $color_bg)
+  style_echo "%m" $color_bg $color
+  style_echo " $(icon_no $icon_no) " $color_bg $color
 }
 
 function path {

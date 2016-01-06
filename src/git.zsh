@@ -81,7 +81,7 @@ function modified_files {
   fi
 }
 
-function prompt_git {
+function git_info {
   if is_repo; then
     # this is git repo :-)
     echo -n "$(repo_icon)"

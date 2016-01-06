@@ -32,8 +32,9 @@ echo -en "$(user)"
 style_echo "@" black
 echo -en "$(host)"
 echo -en "$(path)"
-echo -en "$(prompt_git)"
+echo -en "$(git_info)"
 echo -en "$(rvm_info)"
+echo -en "$(nvm_info)"
 echo -en "$(timer $execution_time)"
 echo -en "%E"
 
