@@ -30,7 +30,7 @@ function icon_no {
   echo -n "${icons[@]:$1:1}"
 }
 
-declare -A special
+declare -A special_icons
 special_icons[hotfix]="⚡"
 special_icons[clock]="◷"
 
