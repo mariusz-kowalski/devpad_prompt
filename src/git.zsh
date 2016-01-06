@@ -93,9 +93,15 @@ function renamed_files {
   fi
 }
 
-function remote_status {
+function remote_up_to_date {
   if check_status "is up-to-date"; then
     style_echo "u-t-d " hi_green
+  fi
+}
+
+function remote_ahead {
+  if check_status "is ahead of"; then
+    style_echo "ahead " blue bold
   fi
 }
 
@@ -121,7 +127,8 @@ function git_info {
     echo -n "$(modified_files)"
     echo -n "$(deleted_files)"
     echo -n "$(renamed_files)"
-    echo -n "$(remote_status)"
+    echo -n "$(remote_up_to_date)"
+    echo -n "$(remote_ahead)"
     echo -n "$(remote_diverged)"
     echo -n "$(remote_behind)"
   fi
