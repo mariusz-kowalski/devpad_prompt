@@ -107,13 +107,19 @@ function remote_ahead {
 
 function remote_diverged {
   if check_status "have diverged"; then
-    style_echo "DIVERGED " hi_white bold bg_red
+    style_echo "diverged " hi_white bold bg_red
   fi
 }
 
 function remote_behind {
   if check_status "is behind"; then
     style_echo "behind " hi_red bold bg_white
+  fi
+}
+
+function conflicts {
+  if check_status "fix conflicts"; then
+    style_echo "conflicts " bg_hi_yellow red bold
   fi
 }
 
@@ -131,5 +137,6 @@ function git_info {
     echo -n "$(remote_ahead)"
     echo -n "$(remote_diverged)"
     echo -n "$(remote_behind)"
+    echo -n "$(conflicts)"
   fi
 }
