@@ -81,6 +81,18 @@ function modified_files {
   fi
 }
 
+function deleted_files {
+  if check_status "deleted:"; then
+    style_echo "del " hi_blue
+  fi
+}
+
+function renamed_files {
+  if check_status "renamed:"; then
+    style_echo "move " hi_cyan
+  fi
+}
+
 function git_info {
   if is_repo; then
     # this is git repo :-)
@@ -88,6 +100,8 @@ function git_info {
     echo -n "$(branch_name)"
     echo -n "$(untracked_files)"
     echo -n "$(new_files)"
-    echo    "$(modified_files) "
+    echo -n "$(modified_files)"
+    echo -n "$(deleted_files)"
+    echo -n "$(renamed_files)"
   fi
 }
