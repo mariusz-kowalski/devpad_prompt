@@ -93,6 +93,24 @@ function renamed_files {
   fi
 }
 
+function remote_status {
+  if check_status "is up-to-date"; then
+    style_echo "u-t-d " hi_green
+  fi
+}
+
+function remote_diverged {
+  if check_status "have diverged"; then
+    style_echo "DIVERGED " hi_white bold bg_red
+  fi
+}
+
+function remote_behind {
+  if check_status "is behind"; then
+    style_echo "behind " hi_red bold bg_white
+  fi
+}
+
 function git_info {
   if is_repo; then
     # this is git repo :-)
@@ -103,5 +121,8 @@ function git_info {
     echo -n "$(modified_files)"
     echo -n "$(deleted_files)"
     echo -n "$(renamed_files)"
+    echo -n "$(remote_status)"
+    echo -n "$(remote_diverged)"
+    echo -n "$(remote_behind)"
   fi
 }
