@@ -13,7 +13,8 @@ function nvm_info {
   fi
 
   local version="$(nvm current)"
-  if [ "$version" == "system" ]; then return 0; fi
+  if [ "$version" == "system" ] || [ "$version" == "none" ]; then return 0; fi
+
   local bg_color=bg_cyan
   style_echo " node-$version" $bg_color $(readable_color_for $bg_color)
 }
