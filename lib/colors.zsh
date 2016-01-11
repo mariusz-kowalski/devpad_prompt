@@ -1,11 +1,9 @@
 function style_echo {
   local style=$(construct_style $2 $3 $4)
   local reset_style=$(construct_style)
-  # echo -ne "%{\033[${style}m%}"
-  echo -ne "\033[${style}m"
+  echo -ne "%{\033[${style}m%}"
   echo -ne "$1"
-  # echo -ne "%{\033[${reset_style}m%}"
-  echo -ne "\033[${reset_style}m"
+  echo -ne "%{\033[${reset_style}m%}"
 }
 
 function construct_style {
