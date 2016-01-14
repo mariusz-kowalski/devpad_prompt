@@ -16,7 +16,5 @@ function precmd_hook {
 }
 
 function preexec_hook {
-  hard_reset_colors
-
   start_timestamp=$(timestamp) # last line
 }

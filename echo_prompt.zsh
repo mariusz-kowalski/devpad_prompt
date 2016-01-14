@@ -41,6 +41,6 @@ echo -en "%E"
 echo # new line
 # second line
 change_style bg_black
-echo -en "$(prompt)%E"
-
+echo -en "$(prompt)"
 hard_reset_colors
+echo -ne "%E"
